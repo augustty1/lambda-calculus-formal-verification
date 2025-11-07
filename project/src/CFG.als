@@ -19,15 +19,17 @@ sig Application extends Expression {
 
 fun derivations[e: Expression]: set Expression {
 	(e.(Abstraction<:param) + e.(Abstraction<:body)+
-	e.(Application<:func) + e.(Application<:arg) )
+	 e.(Application<:func) + e.(Application<:arg) )
 }
 
 fact grammar_structure {
 	-- one start expression --
 	one e: Expression | e not in Expression.derivations
 
-	-- no cycles ???? --	
-
+	-- no cycles --
+	no e: Expression |
+		e in e.^({e1,e2: Expression | e2 in e1.derivations})
+		
 	-- no expression derives from itself --
 	no e: Expression | e in e.derivations
 	
