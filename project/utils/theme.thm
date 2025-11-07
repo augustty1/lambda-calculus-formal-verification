@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<alloy>
+
+<view>
+
+<defaultnode shape="Circle"/>
+
+<defaultedge/>
+
+<node>
+   <type name="Int"/>
+   <type name="String"/>
+   <type name="CFG/Expression"/>
+   <type name="seq/Int"/>
+</node>
+
+<node color="Blue" label="abs">
+   <type name="CFG/Abstraction"/>
+</node>
+
+<node color="Gray" label="app">
+   <type name="CFG/Application"/>
+</node>
+
+<node color="White" label="var">
+   <type name="CFG/Variable"/>
+</node>
+
+<node label="">
+   <type name="univ"/>
+</node>
+
+<node style="Dotted" color="White" label="name">
+   <type name="CFG/Name"/>
+</node>
+
+<edge color="Black" style="Dotted">
+   <relation name="name"> <type name="CFG/Variable"/> <type name="CFG/Name"/> </relation>
+</edge>
+
+<edge color="Blue" style="Bold">
+   <relation name="arg"> <type name="CFG/Application"/> <type name="CFG/Expression"/> </relation>
+</edge>
+
+<edge color="Blue" style="Bold" label="&#x03bb; param">
+   <relation name="param"> <type name="CFG/Abstraction"/> <type name="CFG/Variable"/> </relation>
+</edge>
+
+<edge color="Green" style="Bold">
+   <relation name="body"> <type name="CFG/Abstraction"/> <type name="CFG/Expression"/> </relation>
+   <relation name="func"> <type name="CFG/Application"/> <type name="CFG/Expression"/> </relation>
+</edge>
+
+</view>
+
+</alloy>
