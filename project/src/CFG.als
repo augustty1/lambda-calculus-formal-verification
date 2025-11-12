@@ -22,7 +22,7 @@ fun derivations[e: Expression]: set Expression {
 	 e.(Application<:func) + e.(Application<:arg) )
 }
 
-fact grammar_structure {
+pred grammar_structure {
 	-- one start expression --
 	one e: Expression | e not in Expression.derivations
 
@@ -43,3 +43,5 @@ fact grammar_structure {
 }
 
 -- remark : variables can share the same name --
+
+
