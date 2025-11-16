@@ -1,25 +1,39 @@
+----------------------------------------------
 -- recognizable set and syntatic categories --
+----------------------------------------------
 abstract sig Expression {}
 
 sig Name {}
 
 sig Variable extends Expression {
-	name : one Name
+	var	name : one Name
 }
 
 sig Abstraction extends Expression {
-	param : one Variable,
-	body : one Expression
+	var param : one Variable,
+	var body : one Expression
 }
 
 sig Application extends Expression {
-	func : one Expression,
-	arg : one Expression
+	var func : one Expression,
+	var arg : one Expression
 }
 
+----------------------
+-- macros and utils --
+----------------------
 fun derivations[e: Expression]: set Expression {
 	(e.(Abstraction<:param) + e.(Abstraction<:body)+
 	 e.(Application<:func) + e.(Application<:arg) )
+}
+
+fun subtree[e: Expression]: set Expression {
+	e.*({e1,e2: Expression | e2 in e1.derivations})
+}
+
+-- ? --
+fun subtree_names[e: Expression]: set Name{
+	(e.subtree & Variable).name
 }
 
 pred grammar_structure {

@@ -3,29 +3,50 @@ open CFG
 
 -- op trace --
 abstract sig Reduction {}
-one sig None, Alpha, Beta extends Reduction {}
+one sig Alpha, Beta extends Reduction {}
+one sig Track {
+	var op: lone Reduction 
+}
 
 -- alpha reduction --
--- λx.E => λw.E[x->w] --
+-- λx.E => λn.E[x->n] --
+pred alpha_reduce [ab: Abstraction, n: Name] {
+	-- pre conditions --
+	-- new parameter name
+	ab.param.name != n
+	-- no capture or confusion
+	no (ab.body.subtree_names & n)
 
-/*
-	Não tem ninguém em E utilizando o nome w.
-	i.e. Não tem ninguém na subárvore enraizada em E tal que utilize o nome w.
-	
-	Se isso é verdade, todo elemento pertencente ao conjunto de expressões que fazem parte 
-	da subárvore E e que utilizam x mudam para w.
+	-- post conditions --
+	-- change the name
 
-	Nada mais acontece além dessa renomeação.
-	i.e. Relações se mantem as mesmas.
-*/
+	-- frame conditions --
+	-- no other relation changes
+
+	Track.op' = Alpha
+}
 
 -- beta reduction --
 -- (λx.E)(E1) => E[x->E1] --
 
-/*
-	Tem que verificar uma forma de validade
-	Caso contrario deve ter havido uma redução alpha na expressão
+------------------------------
+-- initial state conditions --
+------------------------------
+pred init [] {
+	-- for convenience, no tracked operation --
+	no Track.op
+	
+	-- well formed expression --
+	grammar_structure
 
-	Ordem em que as reduções betas são aplicadas ? 
-	Mas minha expressão é cheia de parenteses, já que é uma árvore.
-*/
+	-- names and some expressions --
+	#Name > 1 and some Abstraction and some Application
+}
+
+-------------------------
+-- transition relation --
+-------------------------
+pred trans [] {
+	(some ab: Abstraction | some n: Name | alpha_reduce[ab, n])
+}
+
