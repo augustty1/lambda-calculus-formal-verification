@@ -1,54 +1,92 @@
 <?xml version="1.0"?>
 <alloy>
 
-<view>
+<view nodetheme="Martha" edgetheme="Martha">
 
-<defaultnode shape="Circle"/>
+<defaultnode/>
 
 <defaultedge/>
 
 <node>
+   <type name="Active"/>
+   <type name="Inactive"/>
    <type name="Int"/>
+   <type name="None"/>
    <type name="String"/>
-   <type name="CFG/Expression"/>
+   <type name="univ"/>
    <type name="seq/Int"/>
 </node>
 
-<node color="Blue" label="abs">
-   <type name="CFG/Abstraction"/>
+<node color="Blue" label="&#x03bb;">
+   <type name="Abstraction"/>
 </node>
 
-<node color="Gray" label="app">
-   <type name="CFG/Application"/>
+<node color="Green" label="@">
+   <type name="Application"/>
 </node>
 
-<node color="White" label="var">
-   <type name="CFG/Variable"/>
+<node color="White">
+   <type name="Track"/>
 </node>
 
-<node label="">
-   <type name="univ"/>
+<node color="White" label="v">
+   <type name="Variable"/>
 </node>
 
-<node style="Dotted" color="White" label="name">
-   <type name="CFG/Name"/>
+<node hideunconnected="no" shape="Circle">
+   <type name="Expression"/>
 </node>
 
-<edge color="Black" style="Dotted">
-   <relation name="name"> <type name="CFG/Variable"/> <type name="CFG/Name"/> </relation>
+<node label="&#x03b2;">
+   <type name="Beta"/>
+</node>
+
+<node shape="Diamond" label="&#x03b1;">
+   <type name="Alpha"/>
+</node>
+
+<node showlabel="no">
+   <set name="$active_expressions" type="Expression"/>
+</node>
+
+<node visible="no" numberatoms="no">
+   <type name="Status"/>
+</node>
+
+<node visible="no" numberatoms="no" shape="Diamond" color="White">
+   <type name="Reduction"/>
+</node>
+
+<node visible="no" showlabel="no">
+   <set name="$inactive_expressions" type="Expression"/>
+</node>
+
+<edge color="Black" style="Solid" visible="no" layout="no" attribute="yes">
+   <relation name="op"> <type name="Track"/> <type name="Reduction"/> </relation>
 </edge>
 
-<edge color="Blue" style="Bold">
-   <relation name="arg"> <type name="CFG/Application"/> <type name="CFG/Expression"/> </relation>
+<edge color="Blue" style="Dotted">
+   <relation name="binder"> <type name="Variable"/> <type name="Abstraction"/> </relation>
 </edge>
 
-<edge color="Blue" style="Bold" label="&#x03bb; param">
-   <relation name="param"> <type name="CFG/Abstraction"/> <type name="CFG/Variable"/> </relation>
+<edge color="Blue" style="Solid">
+   <relation name="func"> <type name="Application"/> <type name="Expression"/> </relation>
 </edge>
 
-<edge color="Green" style="Bold">
-   <relation name="body"> <type name="CFG/Abstraction"/> <type name="CFG/Expression"/> </relation>
-   <relation name="func"> <type name="CFG/Application"/> <type name="CFG/Expression"/> </relation>
+<edge color="Blue" style="Solid" layout="no" label="&#x03bb; param">
+   <relation name="param"> <type name="Abstraction"/> <type name="Variable"/> </relation>
+</edge>
+
+<edge color="Red" style="Solid">
+   <relation name="body"> <type name="Abstraction"/> <type name="Expression"/> </relation>
+</edge>
+
+<edge color="Red" style="Solid" layout="no">
+   <relation name="arg"> <type name="Application"/> <type name="Expression"/> </relation>
+</edge>
+
+<edge style="inherit" visible="no" merge="no" attribute="no" constraint="no">
+   <relation name="status"> <type name="Expression"/> <type name="Status"/> </relation>
 </edge>
 
 </view>
